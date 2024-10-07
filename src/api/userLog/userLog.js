@@ -1,8 +1,8 @@
 import { API_BASE_URL } from '../path.js';
-import axios from '../axios';
+import axios from '../axios.js';
 
 
-const getAdminLogAPI = () => {
+const getUserLogAPI = () => {
     const errMsg = '에러!!';
     const userLogPath = "/admin/user-log";
     return axios({
@@ -23,4 +23,4 @@ const getAdminLogAPI = () => {
         });
 };
 
-export { getAdminLogAPI };
+export { getUserLogAPI };

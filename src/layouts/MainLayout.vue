@@ -52,8 +52,8 @@
 import { ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 
-import Home from 'pages/homePage.vue'
-import About from 'pages/aboutPage.vue'
+import UserLog from 'pages/UserLogPage.vue'
+import About from 'pages/AboutPage.vue'
 
 defineOptions({
   name: 'MainLayout'
@@ -65,7 +65,7 @@ const linksList = [
     caption: 'quasar.dev',
     icon: 'school',
     link: 'https://quasar.dev',
-    component: Home
+    component: UserLog
   },
   {
     title: '회원관리',
