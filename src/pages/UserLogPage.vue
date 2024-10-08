@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { getUserLogAPI } from '../api/userLog/userLog';
+import { getUserLogAPI } from '../api/index.js';
 
 const getUserList = async () => {
   const { response, error } = await getUserLogAPI();
