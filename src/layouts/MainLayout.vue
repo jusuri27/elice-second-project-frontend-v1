@@ -64,8 +64,7 @@ const linksList = [
     title: '주문관리',
     caption: 'quasar.dev',
     icon: 'school',
-    link: 'https://quasar.dev',
-    component: UserLog
+    link: 'https://quasar.dev'    
   },
   {
     title: '회원관리',
@@ -90,11 +89,12 @@ const linksList = [
     title: '사용자 로그',
     caption: '@quasarframework',
     icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
+    link: 'https://twitter.quasar.dev',
+    component: UserLog
   }
 ]
 
-// const leftDrawerOpen = ref(false)
+const leftDrawerOpen = ref(false)
 const currentView = ref(linksList[0].component) // 기본값을 첫 번째 컴포넌트로 설정
 
 function toggleLeftDrawer () {
@@ -103,6 +103,6 @@ function toggleLeftDrawer () {
 
 function changeMainView(link) {
   currentView.value = link.component // 클릭한 링크의 컴포넌트로 변경
-  leftDrawerOpen.value = false // 사이드바를 닫습니다.
+  leftDrawerOpen.value = true // 사이드바를 닫습니다.
 }
 </script>
