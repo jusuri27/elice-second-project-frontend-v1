@@ -17,11 +17,13 @@
       Selected: {{ JSON.stringify(selected) }}
     </div>
   </div>
+  <ModalComponent v-if="showModal" @closeModal="closeModal"></ModalComponent>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getUserLogAPI } from '../api/index.js';
+import ModalComponent from 'components/ModalComponent.vue'
 
 const selected = ref([]);
 const rows = ref([]); // rows를 ref로 변경하여 반응형 데이터로 만듭니다.
@@ -31,6 +33,7 @@ const initialPagination = {
         page: 1,
         rowsPerPage: 10
       }
+const showModal = ref(false);
 const columns = [
   {
     name: 'adminLogId',
@@ -49,10 +52,20 @@ const columns = [
   { name: '응답시간',   align: 'left',  label: '응답시간',      field: 'responseTime', sortable: true  }
 ]
 
+
+
+
+
 const onRowClick = (evt, row) => {
   console.log('clicked on', row);
   console.log('clicked on', row.userName);
   console.log('clicked on', row.requestUrl);
+  console.log('showModal.value', showModal.value);
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
 };
 
 const getSelectedString = () => {
