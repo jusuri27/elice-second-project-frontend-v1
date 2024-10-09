@@ -1,14 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <div>
-     <q-btn color="primary" label="Primary" />
-    </div>
     <q-table
       flat bordered
       title="사용자 로그"
       :rows="rows"
       :columns="columns.filter(col => col.visible !== false)"
-      row-key="adminLogId"
+      row-key="userLogId"
       :selected-rows-label="getSelectedString"
       selection="multiple"
       v-model:selected="selected"
@@ -18,7 +15,7 @@
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm">
           <q-btn color="primary" label="추가" />
-          <q-btn color="red" @click="changeMainView(link)" label="삭제" />
+          <q-btn color="red" @click="deleteUserLog()" label="삭제" />
         </div>
       </template>
     </q-table>
@@ -37,7 +34,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getUserLogAPI } from '../api/index.js';
+import { getUserLogAPI, deleteUserLogAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 const selected = ref([]);
@@ -52,11 +49,11 @@ const initialPagination = {
       }
 const columns = [
   {
-    name: 'adminLogId',
+    name: 'userLogId',
     required: false,
-    label: 'adminLogId',
+    label: 'userLogId',
     align: 'left',
-    field: row => row.adminLogId,
+    field: row => row.userLogId,
     visible: false
   },
   { name: '유저명',     align: 'left',  label: '유저명',        field: 'userName', sortable: true },
@@ -75,7 +72,7 @@ const showModal = ref(false);
 const onRowClick = (evt, row) => {
   console.log('clicked on', row);
   formData.value = [
-      { key: 'adminLogId', value: row.adminLogId, type: 0},
+      { key: 'userLogId', value: row.userLogId, type: 0},
       { key: 'clientIp', value: row.clientIp, label: 'Client IP', type: 'input', isDisable: false},
       { key: 'requestMethod', value: row.requestMethod, label: 'Request Method', type: 'select', options: [ '11', '22', '33', '44', '55' ], isDisable: false},
       { key: 'requestUrl', value: row.requestUrl, label: 'Request URI', type: 'input', isDisable: false},
@@ -97,15 +94,31 @@ const getSelectedString = () => {
   return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.value.length}`
 }
 
-
+// 조회 api
 const getUserList = async () => {
   const { response, error } = await getUserLogAPI();
   if (error) {
     console.log('에러 발생');
     return;
   }
+
   // API로부터 받은 데이터를 rows에 반영
   rows.value = response.data;
+};
+
+// 삭제 api
+const deleteUserLog = async () => {
+  const userLogIds = selected.value.map(obj => obj.userLogId);
+  console.log("selected.value : ", selected.value);
+  console.log("userLogIds : ", userLogIds);
+
+  const { response, error } = await deleteUserLogAPI(userLogIds);
+  if (error) {
+    console.log('에러 발생');
+    return;
+  }
+  selected.value = [];
+  getUserList();
 };
 
 // 컴포넌트가 마운트될 때 getUserList를 호출
