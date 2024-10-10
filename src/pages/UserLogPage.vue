@@ -35,7 +35,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getUserLogAPI, createUserLogAPI, deleteUserLogAPI } from '../api/index.js';
+import { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 const selected = ref([]);
@@ -146,11 +146,11 @@ const saveModal = async () => {
   console.log('params : ', params);
 
   if (modalFlag.value == 'update') {
-    // const { response, error } = await deleteUserLogAPI(userLogIds);
-    // if (error) {
-    //   console.log('에러 발생');
-    //   return;
-    // }
+    const { response, error } = await updateUserLogAPI(params);
+    if (error) {
+      console.log('수정 에러 발생');
+      return;
+    }
   } else if (modalFlag.value == 'create') {
     const { response, error } = await createUserLogAPI(params);
     if (error) {

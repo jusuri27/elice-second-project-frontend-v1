@@ -35,6 +35,21 @@ const createUserLogAPI = (params) => {
         });
 };
 
+const updateUserLogAPI = (params) => {
+    return axios({
+            url: USERLOG.UPDATE,
+            method: 'put',
+            data: params
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
 const deleteUserLogAPI = (userLogIds) => {
     return axios({
             url: USERLOG.DELETE,
@@ -50,4 +65,4 @@ const deleteUserLogAPI = (userLogIds) => {
         });
 };
 
-export { getUserLogAPI, createUserLogAPI, deleteUserLogAPI };
+export { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI };
