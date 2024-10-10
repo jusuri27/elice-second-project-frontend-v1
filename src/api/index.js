@@ -1,5 +1,6 @@
 export {
     getUserLogAPI,
-    deleteUserLogAPI
+    deleteUserLogAPI,
+    createUserLogAPI
 }
 from './userLog';

@@ -20,6 +20,21 @@ const getUserLogAPI = () => {
         });
 };
 
+const createUserLogAPI = (params) => {
+    return axios({
+            url: USERLOG.CREATE,
+            method: 'post',
+            data: params
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
 const deleteUserLogAPI = (userLogIds) => {
     return axios({
             url: USERLOG.DELETE,
@@ -35,4 +50,4 @@ const deleteUserLogAPI = (userLogIds) => {
         });
 };
 
-export { getUserLogAPI, deleteUserLogAPI };
+export { getUserLogAPI, createUserLogAPI, deleteUserLogAPI };

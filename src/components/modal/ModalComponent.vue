@@ -3,7 +3,7 @@
     <q-dialog v-model="prompt" persistent>
       <q-card style="min-width: 750px">
         <q-card-section>
-          <div class="text-h6">??? 수정 </div>
+          <div class="text-h6">{{modalData}}</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none" v-for="item in formList" :key="item">
@@ -28,7 +28,8 @@ import CustomSelect from 'src/components/form/CustomSelect.vue'
 import CustomFile from 'src/components/form/CustomFile.vue'
 
 const props = defineProps({
-  formData: Object
+  formData: Object,
+  modalTitle: String
 });
 
 const emit = defineEmits([
@@ -38,6 +39,8 @@ const emit = defineEmits([
 
 const prompt = ref(true);
 const formList = ref([]);
+const modalData = ref('');
 
 formList.value = props.formData;
+modalData.value = props.modalTitle;
 </script>

@@ -14,7 +14,7 @@
     >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm">
-          <q-btn color="primary" label="추가" />
+          <q-btn color="primary" @click="createUserLog()" label="추가" />
           <q-btn color="red" @click="deleteUserLog()" label="삭제" />
         </div>
       </template>
@@ -26,6 +26,7 @@
   <ModalComponent 
     v-if="showModal"
     :formData ="formData"
+    :modalTitle ="modalTitle"
     @closeModal="closeModal"
     @saveModal="saveModal"
   >
@@ -34,7 +35,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getUserLogAPI, deleteUserLogAPI } from '../api/index.js';
+import { getUserLogAPI, createUserLogAPI, deleteUserLogAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 const selected = ref([]);
@@ -68,6 +69,12 @@ const columns = [
 // 모달 화면 관련 변수
 const formData = ref([]);
 const showModal = ref(false);
+const modalTitle = ref('');
+const modalFlag = ref('');
+
+const getSelectedString = () => {
+  return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.value.length}`
+}
 
 const onRowClick = (evt, row) => {
   console.log('clicked on', row);
@@ -77,22 +84,28 @@ const onRowClick = (evt, row) => {
       { key: 'requestMethod', value: row.requestMethod, label: 'Request Method', type: 'select', options: [ '11', '22', '33', '44', '55' ], isDisable: false},
       { key: 'requestUrl', value: row.requestUrl, label: 'Request URI', type: 'input', isDisable: false},
       { key: 'responseStatus', value: row.responseStatus, label: 'Response Status', type: 'file', isDisable: false}
-  ]
+  ];
+  modalTitle.value = '사용자 로그 수정';
   showModal.value = true;
+  modalFlag.value = 'update';
 };
 
 const closeModal = () => {
   showModal.value = false;
 };
 
-const saveModal = () => {
-  showModal.value = false;
-  console.log("formData.value : ", formData.value);
+const createUserLog = async () => {
+  formData.value = [
+      { key: 'clientIp', value: '', label: 'Client IP', type: 'input', isDisable: false},
+      { key: 'requestMethod', value: '', label: 'Request Method', type: 'select', options: [ '11', '22', '33', '44', '55' ], isDisable: false},
+      { key: 'requestUrl', value: '', label: 'Request URI', type: 'input', isDisable: false},
+      { key: 'responseStatus', value: '', label: 'Response Status', type: 'file', isDisable: false}
+  ];
+  modalTitle.value = '사용자 로그 추가';
+  showModal.value = true;
+  modalFlag.value = 'create';
 };
 
-const getSelectedString = () => {
-  return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.value.length}`
-}
 
 // 조회 api
 const getUserList = async () => {
@@ -119,6 +132,36 @@ const deleteUserLog = async () => {
   }
   selected.value = [];
   getUserList();
+};
+
+// 추가 ,수정 api
+const saveModal = async () => {
+  const params = {};
+
+  // dto에 맞게 데이터 가공
+  formData.value.forEach(item => {
+    params[item.key] = item.value;
+  });
+
+  console.log('params : ', params);
+
+  if (modalFlag.value == 'update') {
+    // const { response, error } = await deleteUserLogAPI(userLogIds);
+    // if (error) {
+    //   console.log('에러 발생');
+    //   return;
+    // }
+  } else if (modalFlag.value == 'create') {
+    const { response, error } = await createUserLogAPI(params);
+    if (error) {
+      alert('추가 에러 발생');
+      return;
+    }
+  }
+
+  selected.value = [];
+  getUserList();
+  showModal.value = false;
 };
 
 // 컴포넌트가 마운트될 때 getUserList를 호출
