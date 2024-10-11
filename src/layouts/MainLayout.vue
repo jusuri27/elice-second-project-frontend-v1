@@ -53,7 +53,7 @@ import { ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 
 import UserLog from 'pages/UserLogPage.vue'
-import Category from 'pages/Category.vue'
+import Category from 'src/pages/CategoryPage.vue'
 import Item from 'src/pages/ItemPage.vue'
 
 defineOptions({

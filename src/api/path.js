@@ -9,5 +9,8 @@ export const path = {
     },
     ITEM: {
         LIST: `${API_BASE_URL}/item`
+    },
+    CATEGORY: {
+        LIST: `${API_BASE_URL}/category`
     }
 }

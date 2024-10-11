@@ -10,3 +10,8 @@ export {
     getItemAPI
 }
 from './item';
+
+export {
+    getCategoryAPI
+}
+from './category';
