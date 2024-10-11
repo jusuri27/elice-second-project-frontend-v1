@@ -15,7 +15,7 @@
         <q-toolbar-title>
           Shoux Kream
         </q-toolbar-title>
-
+        
       </q-toolbar>
     </q-header>
 
@@ -53,7 +53,8 @@ import { ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 
 import UserLog from 'pages/UserLogPage.vue'
-import About from 'pages/AboutPage.vue'
+import Category from 'pages/Category.vue'
+import Item from 'pages/Item.vue'
 
 defineOptions({
   name: 'MainLayout'
@@ -70,20 +71,21 @@ const linksList = [
     title: '회원관리',
     caption: 'github.com/quasarframework',
     icon: 'code',
-    link: 'https://github.com/quasarframework',
-    component: About
+    link: 'https://github.com/quasarframework'
   },
   {
     title: '카테고리 추가',
     caption: 'chat.quasar.dev',
     icon: 'chat',
-    link: 'https://chat.quasar.dev'
+    link: 'https://chat.quasar.dev',
+    component: Category
   },
   {
-    title: '제품 추가',
+    title: '상품 추가',
     caption: 'forum.quasar.dev',
     icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
+    link: 'https://forum.quasar.dev',
+    component: Item
   },
   {
     title: '사용자 로그',
@@ -95,14 +97,29 @@ const linksList = [
 ]
 
 const leftDrawerOpen = ref(false)
-const currentView = ref(linksList[0].component) // 기본값을 첫 번째 컴포넌트로 설정
+const currentView = ref(linksList[4].component) // 기본값을 첫 번째 컴포넌트로 설정
 
 function toggleLeftDrawer () {
   // leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
 function changeMainView(link) {
-  currentView.value = link.component // 클릭한 링크의 컴포넌트로 변경
-  leftDrawerOpen.value = true // 사이드바를 닫습니다.
+  currentView.value = link.component
+  leftDrawerOpen.value = true
 }
+
+// localhost:8080에서 관리자 버튼 클릭시 토큰값 넘겨받고 url에 남아있는 토큰 내용 삭제
+// url에 토큰 내용을 삭제했기 때문에 새로고침시 url에 토큰값이 있을때만 세션스토리지에 저장
+const urlParams = new URLSearchParams(window.location.search);
+const tokenFromUrl = urlParams.get('token');
+const tokenFromSession = sessionStorage.getItem('accessToken');
+
+if (tokenFromUrl) {
+  sessionStorage.setItem('accessToken', tokenFromUrl);
+}
+
+urlParams.delete('token');
+const newUrl = window.location.pathname + '?' + urlParams.toString();
+window.history.replaceState({}, document.title, newUrl);
+
 </script>
