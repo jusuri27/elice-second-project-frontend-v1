@@ -54,7 +54,7 @@ import EssentialLink from 'components/EssentialLink.vue'
 
 import UserLog from 'pages/UserLogPage.vue'
 import Category from 'pages/Category.vue'
-import Item from 'pages/Item.vue'
+import Item from 'src/pages/ItemPage.vue'
 
 defineOptions({
   name: 'MainLayout'

@@ -6,5 +6,8 @@ export const path = {
         DELETE: `${API_BASE_URL}/user-log`,
         CREATE: `${API_BASE_URL}/user-log`,
         UPDATE: `${API_BASE_URL}/user-log`
+    },
+    ITEM: {
+        LIST: `${API_BASE_URL}/item`
     }
 }
