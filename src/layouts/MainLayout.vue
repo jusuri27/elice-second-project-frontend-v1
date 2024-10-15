@@ -55,6 +55,7 @@ import EssentialLink from 'components/EssentialLink.vue'
 import UserLog from 'pages/UserLogPage.vue'
 import Category from 'src/pages/CategoryPage.vue'
 import Item from 'src/pages/ItemPage.vue'
+import User from 'src/pages/UserPage.vue'
 
 defineOptions({
   name: 'MainLayout'
@@ -65,13 +66,14 @@ const linksList = [
     title: '주문관리',
     caption: 'quasar.dev',
     icon: 'school',
-    link: 'https://quasar.dev'    
+    link: 'https://quasar.dev'
   },
   {
     title: '회원관리',
     caption: 'github.com/quasarframework',
     icon: 'code',
-    link: 'https://github.com/quasarframework'
+    link: 'https://github.com/quasarframework',
+    component: User
   },
   {
     title: '카테고리 추가',
