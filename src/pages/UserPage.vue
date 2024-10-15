@@ -7,14 +7,13 @@
       :columns="columns.filter(col => col.visible !== false)"
       row-key="userId"
       :selected-rows-label="getSelectedString"
-      selection="multiple"
       v-model:selected="selected"
-      @row-click="onRowClick"
+      @row-dblclick="onDbRowClick"
       :pagination="initialPagination"
     >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm">
-          <q-btn color="red" @click="deleteUserLog()" label="삭제" />
+          <!-- <q-btn color="red" @click="deleteUserLog()" label="삭제" /> -->
         </div>
       </template>
     </q-table>
@@ -31,7 +30,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getUserAPI } from '../api/index.js';
+import { getUserAPI, updateUserAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 const selected = ref([]);
@@ -71,16 +70,23 @@ const getSelectedString = () => {
   return selected.value.length === 0 ? '' : `${selected.value.length} record${selected.value.length > 1 ? 's' : ''} selected of ${rows.value.length}`
 }
 
-const onRowClick = (evt, row) => {
+const onDbRowClick = (evt, row) => {
   console.log('clicked on', row);
-  formData.value = [
-      { key: 'userId', value: row.userId, type: 0},
-      { key: 'clientIp', value: row.clientIp, label: 'Client IP', type: 'input', isDisable: false},
-      { key: 'requestMethod', value: row.requestMethod, label: 'Request Method', type: 'select', options: [ '11', '22', '33', '44', '55' ], isDisable: false},
-      { key: 'requestUrl', value: row.requestUrl, label: 'Request URI', type: 'input', isDisable: false},
-      { key: 'responseStatus', value: row.responseStatus, label: 'Response Status', type: 'file', isDisable: false}
+  const role = 
+  [
+    {name: 'ADMIN', value: 'ADMIN'},
+    {name: 'USER', value: 'USER'}
   ];
-  modalTitle.value = '사용자 로그 수정';
+  formData.value = [
+      { key: 'userId', value: row.userId, type: 'hidden'},
+      { key: 'userName', value: row.userName, label: '이름', type: 'input', isDisable: true},
+      { key: 'userEmail', value: row.userEmail, label: '아이디', type: 'input', isDisable: true},
+      { key: 'userRole', value: row.userRole, label: '권한', type: 'select', options: role, isDisable: false},
+      { key: 'userNickName', value: row.userNickName, label: '닉네임', type: 'input', isDisable: true},
+      { key: 'createAt', value: row.createAt, label: '생성시간', type: 'input', isDisable: true},
+      { key: 'updateAt', value: row.userNickName, label: '수정시간', type: 'input', isDisable: true}
+  ];
+  modalTitle.value = '유저 수정';
   showModal.value = true;
   modalFlag.value = 'update';
 };
@@ -107,13 +113,18 @@ const saveModal = async () => {
 
   // dto에 맞게 데이터 가공
   formData.value.forEach(item => {
-    params[item.key] = item.value;
+    // 셀렉트 박스 미클릭시 : userRole은 String
+    // 셀렉트 박스 클릭시 : userRole은 Object
+    // 그래서 아래와 같은 if조건문 사용함
+    if (item.key === 'userRole' && typeof item.value === 'object') {
+      params[item.key] = item.value.value;
+    } else {
+      params[item.key] = item.value;
+    } 
   });
 
-  console.log('params : ', params);
-
   if (modalFlag.value == 'update') {
-    const { response, error } = await updateUserLogAPI(params);
+    const { response, error } = await updateUserAPI(params);
     if (error) {
       console.log('수정 에러 발생');
       return;

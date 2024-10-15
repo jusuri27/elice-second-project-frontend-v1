@@ -4,6 +4,8 @@
         v-model="data.value"
         :label="data.label"
         :options="data.options"
+        option-value="value"
+        option-label="name"
         :disable="data.isDisable"
     />
 </template>
