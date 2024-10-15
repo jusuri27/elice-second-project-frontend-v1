@@ -5,9 +5,9 @@
       title="카테고리 관리"
       :rows="rows"
       :columns="columns.filter(col => col.visible !== false)"
-      row-key="itemId"
+      row-key="id"
       :selected-rows-label="getSelectedString"
-      selection="multiple"
+      selection="single"
       v-model:selected="selected"
       @row-dblclick="onDbRowClick"
       :pagination="initialPagination"
@@ -26,6 +26,7 @@
 import { ref, onMounted } from 'vue'
 import { getCategoryAPI } from '../api/index.js';
 
+const selected = ref([]); // 체크박스
 const rows = ref([]); // rows를 ref로 변경하여 반응형 데이터로 만듭니다.
 const initialPagination = {
         sortBy: 'desc',
@@ -35,7 +36,7 @@ const initialPagination = {
 };
 const columns = [
   {
-    name: 'categoryId',
+    name: 'id',
     required: false,
     label: 'categoryId',
     align: 'left',

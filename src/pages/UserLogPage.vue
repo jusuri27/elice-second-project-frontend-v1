@@ -35,11 +35,10 @@ import { ref, onMounted } from 'vue'
 import { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
-const selected = ref([]);
-
 // 테이블 화면 관련 변수
+const selected = ref([]); // 체크박스
 const rows = ref([]); // rows를 ref로 변경하여 반응형 데이터로 만듭니다.
-const initialPagination = {
+const initialPagination = { // 페이지네이션
         sortBy: 'desc',
         descending: false,
         page: 1,
