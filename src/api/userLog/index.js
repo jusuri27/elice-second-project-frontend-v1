@@ -5,7 +5,7 @@ const USERLOG = api.path.USERLOG;
 
 const getUserLogAPI = () => {
     return axios({
-            url: USERLOG.LIST,
+            url: USERLOG,
             method: 'get'
         })
         .then(res => {
@@ -22,7 +22,7 @@ const getUserLogAPI = () => {
 
 const createUserLogAPI = (params) => {
     return axios({
-            url: USERLOG.CREATE,
+            url: USERLOG,
             method: 'post',
             data: params
         })
@@ -37,7 +37,7 @@ const createUserLogAPI = (params) => {
 
 const updateUserLogAPI = (params) => {
     return axios({
-            url: USERLOG.UPDATE,
+            url: USERLOG,
             method: 'put',
             data: params
         })
@@ -52,7 +52,7 @@ const updateUserLogAPI = (params) => {
 
 const deleteUserLogAPI = (userLogIds) => {
     return axios({
-            url: USERLOG.DELETE,
+            url: USERLOG,
             method: 'delete',
             data: userLogIds
         })

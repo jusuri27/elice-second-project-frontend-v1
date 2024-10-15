@@ -15,3 +15,9 @@ export {
     getCategoryAPI
 }
 from './category';
+
+export {
+    getUserAPI,
+    updateUserAPI
+}
+from './user';
