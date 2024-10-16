@@ -24,6 +24,7 @@ export {
 from './user';
 
 export {
-    getCheckOutAPI
+    getCheckOutAPI,
+    deleteCheckOutAPI
 }
 from './checkOut';

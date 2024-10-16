@@ -20,5 +20,18 @@ const getCheckOutAPI = () => {
         });
 };
 
+const deleteCheckOutAPI = (checkOutId) => {
+    return axios({
+            url: `${CHECKOUT.DELETE}/${checkOutId}`,
+            method: 'delete'
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
 
-export { getCheckOutAPI };
+export { getCheckOutAPI, deleteCheckOutAPI };

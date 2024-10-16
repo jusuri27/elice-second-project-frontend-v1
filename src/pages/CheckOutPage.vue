@@ -6,6 +6,7 @@
       :rows="rows"
       :columns="columns.filter(col => col.visible !== false)"
       row-key="id"
+      selection="single"
       :selected-rows-label="getSelectedString"
       v-model:selected="selected"
       @row-dblclick="onDbRowClick"
@@ -13,7 +14,7 @@
     >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm">
-          <!-- <q-btn color="red" @click="deleteUserLog()" label="삭제" /> -->
+          <q-btn color="red" @click="clickDeleteCheckOut()" label="삭제" />
         </div>
       </template>
     </q-table>
@@ -30,7 +31,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getCheckOutAPI } from '../api/index.js';
+import { getCheckOutAPI, deleteCheckOutAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 const selected = ref([]);
@@ -89,6 +90,19 @@ const getCheckOutList = async () => {
     });
   console.log("response.data : ", response.data);
   console.log("rows.value : ", rows.value);
+};
+
+// 삭제 api
+const clickDeleteCheckOut = async () => {
+  const checkOutId = selected.value.map(obj => obj.id);
+
+  const { response, error } = await deleteCheckOutAPI(checkOutId);
+  if (error) {
+    console.log('에러 발생');
+    return;
+  }
+  selected.value = [];
+  getCheckOutList();
 };
 
 onMounted(() => {

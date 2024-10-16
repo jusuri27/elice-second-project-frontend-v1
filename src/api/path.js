@@ -8,7 +8,7 @@ export const path = {
     },
     USER: `${API_BASE_URL}/user`,
     CHECKOUT: {
-        LIST: `${API_BASE_URL}/checkout`
+        LIST: `${API_BASE_URL}/checkout`,
+        DELETE: `${API_BASE_URL}/checkout`,
     },
-
 }
