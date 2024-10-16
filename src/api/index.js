@@ -22,3 +22,8 @@ export {
     updateUserAPI
 }
 from './user';
+
+export {
+    getCheckOutAPI
+}
+from './checkOut';

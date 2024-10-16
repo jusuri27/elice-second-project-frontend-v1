@@ -6,6 +6,9 @@ export const path = {
     CATEGORY: {
         LIST: `${API_BASE_URL}/category`
     },
-    USER: `${API_BASE_URL}/user`
+    USER: `${API_BASE_URL}/user`,
+    CHECKOUT: {
+        LIST: `${API_BASE_URL}/checkout`
+    },
 
 }

@@ -30,7 +30,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import {  } from '../api/index.js';
+import { getCheckOutAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 const selected = ref([]);
@@ -75,8 +75,20 @@ const getCheckOutList = async () => {
     console.log('에러 발생');
     return;
   }
+  
+  rows.value = response.data.map(order => {
+    const { address, ...rest } = order;
+        return {
+            ...rest,
+            recipientName: address.recipientName,
+            recipientPhone: address.recipientPhone,
+            postalCode: address.postalCode,
+            address1: address.address1,
+            address2: address.address2
+        };
+    });
   console.log("response.data : ", response.data);
-  rows.value = response.data;
+  console.log("rows.value : ", rows.value);
 };
 
 onMounted(() => {
