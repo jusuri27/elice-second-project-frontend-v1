@@ -56,6 +56,7 @@ import UserLog from 'pages/UserLogPage.vue'
 import Category from 'src/pages/CategoryPage.vue'
 import Item from 'src/pages/ItemPage.vue'
 import User from 'src/pages/UserPage.vue'
+import CheckOut from 'src/pages/CheckOutPage.vue'
 
 defineOptions({
   name: 'MainLayout'
@@ -66,7 +67,8 @@ const linksList = [
     title: '주문 관리',
     caption: 'quasar.dev',
     icon: 'school',
-    link: 'https://quasar.dev'
+    link: 'https://quasar.dev',
+    component: CheckOut
   },
   {
     title: '회원 관리',
