@@ -2,9 +2,7 @@ export const API_BASE_URL = 'http://localhost:8080/api/admin';
 
 export const path = {
     USERLOG: `${API_BASE_URL}/user-log`,
-    ITEM: {
-        LIST: `${API_BASE_URL}/item`
-    },
+    ITEM: `${API_BASE_URL}/item`,
     CATEGORY: {
         LIST: `${API_BASE_URL}/category`
     },

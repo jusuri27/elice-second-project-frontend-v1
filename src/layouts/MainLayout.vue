@@ -63,27 +63,27 @@ defineOptions({
 
 const linksList = [
   {
-    title: '주문관리',
+    title: '주문 관리',
     caption: 'quasar.dev',
     icon: 'school',
     link: 'https://quasar.dev'
   },
   {
-    title: '회원관리',
+    title: '회원 관리',
     caption: 'github.com/quasarframework',
     icon: 'code',
     link: 'https://github.com/quasarframework',
     component: User
   },
   {
-    title: '카테고리 추가',
+    title: '카테고리 관리',
     caption: 'chat.quasar.dev',
     icon: 'chat',
     link: 'https://chat.quasar.dev',
     component: Category
   },
   {
-    title: '상품 추가',
+    title: '상품 관리',
     caption: 'forum.quasar.dev',
     icon: 'record_voice_over',
     link: 'https://forum.quasar.dev',

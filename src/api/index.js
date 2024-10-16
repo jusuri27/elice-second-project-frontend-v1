@@ -7,7 +7,8 @@ export {
 from './userLog';
 
 export {
-    getItemAPI
+    getItemAPI,
+    deleteItemAPI
 }
 from './item';
 

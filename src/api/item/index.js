@@ -5,7 +5,7 @@ const ITEM = api.path.ITEM;
 
 const getItemAPI = () => {
     return axios({
-            url: ITEM.LIST,
+            url: ITEM,
             method: 'get'
         })
         .then(res => {
@@ -20,4 +20,18 @@ const getItemAPI = () => {
         });
 };
 
-export { getItemAPI };
+const deleteItemAPI = (itemId) => {
+    return axios({
+            url: `${ITEM}/${itemId}`,
+            method: 'delete'
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
+export { getItemAPI, deleteItemAPI };

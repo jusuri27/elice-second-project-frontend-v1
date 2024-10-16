@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getItemAPI } from '../api/index.js';
+import { getItemAPI, deleteItemAPI } from '../api/index.js';
 
 // 테이블 화면 관련 변수
 const selected = ref([]); // 체크박스
@@ -61,8 +61,7 @@ const clickCreateItem = () => {
 
 // TODO 경로 정해지면 수정해야됌
 const onDbRowClick = (evt, row) => {
-  const updateUrl = 'http://localhost:8080/item/' + row.id;
-  console.log('updateUrl : ', updateUrl);
+  const updateUrl = 'http://localhost:8080/item/edit/' + row.id;
   window.open(updateUrl, 'popupWindow', 'width=1000,height=1200');
 };
 
@@ -78,6 +77,19 @@ const getItemList = async () => {
 
   // API로부터 받은 데이터를 rows에 반영
   rows.value = response.data;
+};
+
+// 삭제 api
+const clickDeleteItem = async () => {
+  const itemId = selected.value.map(obj => obj.id);
+
+  const { response, error } = await deleteItemAPI(itemId);
+  if (error) {
+    console.log('에러 발생');
+    return;
+  }
+  selected.value = [];
+  getItemList();
 };
 
 // 컴포넌트가 마운트될 때 getUserList를 호출
