@@ -26,6 +26,7 @@ from './user';
 
 export {
     getCheckOutAPI,
+    updateCheckOutAPI,
     deleteCheckOutAPI
 }
 from './checkOut';

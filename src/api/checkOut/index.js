@@ -20,6 +20,21 @@ const getCheckOutAPI = () => {
         });
 };
 
+const updateCheckOutAPI = (params) => {
+    return axios({
+            url: `${CHECKOUT.UPDATE}/${params.id}`,
+            method: 'patch',
+            data: params
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
 const deleteCheckOutAPI = (checkOutId) => {
     return axios({
             url: `${CHECKOUT.DELETE}/${checkOutId}`,
@@ -34,4 +49,4 @@ const deleteCheckOutAPI = (checkOutId) => {
         });
 };
 
-export { getCheckOutAPI, deleteCheckOutAPI };
+export { getCheckOutAPI, updateCheckOutAPI, deleteCheckOutAPI };

@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getCheckOutAPI, deleteCheckOutAPI } from '../api/index.js';
+import { getCheckOutAPI, updateCheckOutAPI, deleteCheckOutAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 const selected = ref([]);
@@ -68,6 +68,33 @@ const showModal = ref(false);
 const modalTitle = ref('');
 const modalFlag = ref('');
 
+const onDbRowClick = (evt, row) => {
+  console.log('clicked on', row);
+  const role = 
+  [
+    {name: 'READY', value: 'READY'},
+    {name: 'START', value: 'START'},
+    {name: 'SHIPPING', value: 'SHIPPING'},
+    {name: 'ARRIVED', value: 'ARRIVED'}
+  ];
+  formData.value = [
+      { key: 'id', value: row.id, type: 'hidden'},
+      { key: 'summaryTitle', value: row.summaryTitle, label: '주문 제목', type: 'input', isDisable: true},
+      { key: 'totalPrice', value: row.totalPrice, label: '총 가격', type: 'input', isDisable: true},
+      { key: 'deliveryStatus', value: row.deliveryStatus, label: '배송상태', type: 'select', options: role, isDisable: false},
+      { key: 'userId', value: row.userId, label: '유저id', type: 'input', isDisable: true},
+      { key: 'request', value: row.request, label: '배송요청사항', type: 'input', isDisable: true},
+      { key: 'address1', value: row.address1, label: '주소1', type: 'input', isDisable: true},
+      { key: 'address2', value: row.address2, label: '주소2', type: 'input', isDisable: true}
+  ];
+  modalTitle.value = '주문 수정';
+  showModal.value = true;
+  modalFlag.value = 'update';
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
 
 // 조회 api
 const getCheckOutList = async () => {
@@ -90,6 +117,37 @@ const getCheckOutList = async () => {
     });
   console.log("response.data : ", response.data);
   console.log("rows.value : ", rows.value);
+};
+
+// 수정 api
+const saveModal = async () => {
+  const params = {};
+
+  // dto에 맞게 데이터 가공
+  formData.value.forEach(item => {
+    // 셀렉트 박스 미클릭시 : userRole은 String
+    // 셀렉트 박스 클릭시 : userRole은 Object
+    // 그래서 아래와 같은 if조건문 사용함
+    if (item.key === 'deliveryStatus' && typeof item.value === 'object') {
+      params[item.key] = item.value.value;
+    } else {
+      params[item.key] = item.value;
+    } 
+  });
+
+  console.log('params : ', params);
+  
+  if (modalFlag.value == 'update') {
+    const { response, error } = await updateCheckOutAPI(params);
+    if (error) {
+      console.log('수정 에러 발생');
+      return;
+    }
+  }
+
+  selected.value = [];
+  showModal.value = false;
+  getCheckOutList();
 };
 
 // 삭제 api
