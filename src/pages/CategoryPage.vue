@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getCategoryAPI } from '../api/index.js';
+import { getCategoryAPI, deleteCategoryAPI } from '../api/index.js';
 
 const selected = ref([]); // 체크박스
 const rows = ref([]); // rows를 ref로 변경하여 반응형 데이터로 만듭니다.
@@ -43,23 +43,23 @@ const columns = [
     field: row => row.id,
     visible: false
   },
-  { name: 'name', align: 'left', label: '카테고리명', field: 'name', sortable: true }
+  { name: 'title', align: 'left', label: '카테고리 제목', field: 'title', sortable: true },
+  { name: 'description', align: 'left', label: '카테고리 설명', field: 'description', sortable: true },
+  { name: 'imageUrl', align: 'left', label: '이미지', field: 'imageUrl', sortable: true },
+  { name: 'themeClass', align: 'left', label: '테마', field: 'themeClass', sortable: true },
 ];
 
-// TODO 경로 정해지면 수정해야됌
 const clickCreateCategory = () => {
-  const createUrl = 'http://localhost:8080/categorie-add';
+  const createUrl = 'http://localhost:8080/category/add';
   window.open(createUrl, 'popupWindow', 'width=1000,height=1200');
 };
 
-// TODO 경로 정해지면 수정해야됌
 const onDbRowClick = (evt, row) => {
   const updateUrl = 'http://localhost:8080/categorie/' + row.id;
   console.log('updateUrl : ', updateUrl);
   window.open(updateUrl, 'popupWindow', 'width=1000,height=1200');
 };
 
-// TODO 삭제 어떻게 해야될지 확인 필요
 
 // 조회 api
 const getCategoryList = async () => {
@@ -70,6 +70,19 @@ const getCategoryList = async () => {
   }
   console.log('response.data : ', response.data);
   rows.value = response.data;
+};
+
+// 삭제 api
+const clickDeleteCategory = async () => {
+  const categoryId = selected.value.map(obj => obj.id);
+
+  const { response, error } = await deleteCategoryAPI(categoryId);
+  if (error) {
+    console.log('에러 발생');
+    return;
+  }
+  selected.value = [];
+  getCategoryList();
 };
 
 onMounted(() => {

@@ -53,19 +53,16 @@ const columns = [
   { name: 'price', align: 'left', label: '가격', field: 'price', sortable: true  }
 ];
 
-// TODO 경로 정해지면 수정해야됌
 const clickCreateItem = () => {
   const createUrl = 'http://localhost:8080/item/item-add';
   window.open(createUrl, 'popupWindow', 'width=1000,height=1200');
 };
 
-// TODO 경로 정해지면 수정해야됌
 const onDbRowClick = (evt, row) => {
   const updateUrl = 'http://localhost:8080/item/edit/' + row.id;
   window.open(updateUrl, 'popupWindow', 'width=1000,height=1200');
 };
 
-// TODO 삭제 어떻게 해야될지 확인 필요
 
 // 조회 api
 const getItemList = async () => {

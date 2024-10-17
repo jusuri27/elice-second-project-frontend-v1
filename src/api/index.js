@@ -13,7 +13,8 @@ export {
 from './item';
 
 export {
-    getCategoryAPI
+    getCategoryAPI,
+    deleteCategoryAPI
 }
 from './category';
 

@@ -5,7 +5,7 @@ const CATEGORY = api.path.CATEGORY;
 
 const getCategoryAPI = () => {
     return axios({
-            url: CATEGORY.LIST,
+            url: CATEGORY,
             method: 'get'
         })
         .then(res => {
@@ -20,4 +20,18 @@ const getCategoryAPI = () => {
         });
 };
 
-export { getCategoryAPI };
+const deleteCategoryAPI = (categoryId) => {
+    return axios({
+            url: `${CATEGORY}/${categoryId}`,
+            method: 'delete'
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
+export { getCategoryAPI, deleteCategoryAPI };
