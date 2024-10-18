@@ -164,7 +164,7 @@ const saveModal = async () => {
 // 엑셀 저장
 const clickExcelDownload = async () => {
   const params = rows.value;
-
+  console.log('params : ', params);
   const { response, error } = await userLogExcelDownloadAPI(params);
   if (error) {
     console.log('에러 발생');

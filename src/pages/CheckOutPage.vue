@@ -167,7 +167,7 @@ const clickDeleteCheckOut = async () => {
 // 엑셀 저장
 const clickExcelDownload = async () => {
   const params = rows.value;
-
+  console.log('params : ', params);
   const { response, error } = await checkOutExcelDownloadAPI(params);
   if (error) {
     console.log('에러 발생');

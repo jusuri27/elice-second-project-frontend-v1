@@ -1,25 +1,90 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      flat bordered
-      title="상품 관리"
-      :rows="rows"
-      :columns="columns.filter(col => col.visible !== false)"
-      row-key="id"
-      :selected-rows-label="getSelectedString"
-      selection="single"
-      v-model:selected="selected"
-      @row-dblclick="onDbRowClick"
-      :pagination="initialPagination"
-    >
-      <template v-slot:top-right>
-        <div class="q-pa-md q-gutter-sm">
-          <q-btn color="secondary" @click="clickExcelDownload()" label="엑셀" />
-          <q-btn color="primary" @click="clickCreateItem()" label="추가" />
-          <q-btn color="red" @click="clickDeleteItem()" label="삭제" />
-        </div>
-      </template>
-    </q-table>
+    <div class="q-col-gutter-md row items-start">
+      <div class="col-3">
+        <q-card class="my-card" flat bordered>
+          <q-img style="max-width: 540px; max-height: 360px; background: #f4f4f4;" :src="selectedRow?.imageKey || 'https://cdn.quasar.dev/img/parallax2.jpg'" />
+
+            <q-list style="margin-top: 20px">
+              <q-item>
+                <q-item-section>
+                  <q-item-label>상품명</q-item-label>
+                  <q-item-label caption lines="2">{{ selectedRow?.title || 'Secondary line text.' }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator spaced inset />
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label>제조사</q-item-label>
+                  <q-item-label caption>{{ selectedRow?.manufacturer || 'Secondary line text.' }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator spaced inset />
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label>요약 설명</q-item-label>
+                  <q-item-label caption>{{ selectedRow?.shortDescription || 'Secondary line text.' }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator spaced inset />
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label>상세 설명</q-item-label>
+                  <q-item-label caption>{{ selectedRow?.detailDescription || 'Secondary line text.' }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator spaced inset />
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label>재고</q-item-label>
+                  <q-item-label caption>{{ selectedRow?.inventory || 'Secondary line text.' }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator spaced inset />
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label>가격</q-item-label>
+                  <q-item-label caption>{{ selectedRow?.price || 'Secondary line text.' }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+        </q-card>
+      </div>
+      <div class="col-9">
+        <q-table
+          flat bordered
+          title="상품 관리"
+          :rows="rows"
+          :columns="columns.filter(col => col.visible !== false)"
+          row-key="id"
+          :selected-rows-label="getSelectedString"
+          selection="single"
+          v-model:selected="selected"
+          @row-click="onRowClick"
+          @row-dblclick="onDbRowClick"
+          :pagination="initialPagination"
+        >
+          <template v-slot:top-right>
+            <div class="q-pa-md q-gutter-sm">
+              <q-btn color="secondary" @click="clickExcelDownload()" label="엑셀" />
+              <q-btn color="primary" @click="clickCreateItem()" label="추가" />
+              <q-btn color="red" @click="clickDeleteItem()" label="삭제" />
+            </div>
+          </template>
+        </q-table>
+      </div>
+    </div>
+    
   </div>
 </template>
 
@@ -47,12 +112,19 @@ const columns = [
   },
   { name: 'title', align: 'left', label: '상품명', field: 'title', sortable: true },
   { name: 'manufacturer', align: 'left', label: '제조사', field: 'manufacturer', sortable: true },
-  { name: 'shortDescription', align: 'left', label: '요약설명', field: 'shortDescription', sortable: true },
-  { name: 'detailDescription', align: 'left', label: '상세설명', field: 'detailDescription', sortable: true },
-  { name: 'imageKey', align: 'left', label: '사진경로', field: 'imageKey', sortable: true },
+  { name: 'shortDescription', align: 'left', label: '요약 설명', field: 'shortDescription', sortable: true },
+  { name: 'detailDescription', align: 'left', label: '상세 설명', field: 'detailDescription', sortable: true },
+  { name: 'imageKey', align: 'left', label: '사진 경로', field: 'imageKey', sortable: true },
   { name: 'inventory', align: 'left', label: '재고', field: 'inventory', sortable: true  },
   { name: 'price', align: 'left', label: '가격', field: 'price', sortable: true  }
 ];
+
+// 선택된 행 데이터
+const selectedRow = ref(null) // 초기에는 null로 설정
+
+const onRowClick = (evt, row) => {
+  selectedRow.value = row // 선택된 행 데이터를 selectedRow에 저장
+}
 
 const clickCreateItem = () => {
   const createUrl = 'http://localhost:8080/item/item-add';
@@ -75,6 +147,10 @@ const getItemList = async () => {
 
   // API로부터 받은 데이터를 rows에 반영
   rows.value = response.data;
+  if (rows.value.length > 0) {
+    selectedRow.value = rows.value[0] // 첫 번째 행 데이터를 선택
+  }
+  console.log("rows.value : ", rows.value);
 };
 
 // 삭제 api
@@ -115,5 +191,6 @@ const clickExcelDownload = async () => {
 // 컴포넌트가 마운트될 때 getUserList를 호출
 onMounted(() => {
   getItemList();
+  
 });
 </script>
