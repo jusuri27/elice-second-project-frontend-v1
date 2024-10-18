@@ -34,4 +34,20 @@ const deleteItemAPI = (itemId) => {
         });
 };
 
-export { getItemAPI, deleteItemAPI };
+const itemExcelDownloadAPI = (params) => {
+    return axios({
+            url: `${ITEM}/excel/download`,
+            method: 'post',
+            data: params,
+            responseType: 'blob'
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
+export { getItemAPI, deleteItemAPI, itemExcelDownloadAPI };

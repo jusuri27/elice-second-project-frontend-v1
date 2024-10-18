@@ -35,4 +35,20 @@ const updateUserAPI = (params) => {
         });
 };
 
-export { getUserAPI, updateUserAPI };
+const userExcelDownloadAPI = (params) => {
+    return axios({
+            url: `${USER}/excel/download`,
+            method: 'post',
+            data: params,
+            responseType: 'blob'
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
+export { getUserAPI, updateUserAPI, userExcelDownloadAPI };

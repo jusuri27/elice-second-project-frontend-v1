@@ -33,7 +33,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI, excelDownloadAPI } from '../api/index.js';
+import { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI, userLogExcelDownloadAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 // 테이블 화면 관련 변수
@@ -165,7 +165,7 @@ const saveModal = async () => {
 const clickExcelDownload = async () => {
   const params = rows.value;
 
-  const { response, error } = await excelDownloadAPI(params);
+  const { response, error } = await userLogExcelDownloadAPI(params);
   if (error) {
     console.log('에러 발생');
     return;
@@ -180,7 +180,6 @@ const clickExcelDownload = async () => {
   link.click();
   document.body.removeChild(link); // 링크 요소 제거
   
-  selected.value = [];
   getUserList();
 };
 

@@ -34,4 +34,20 @@ const deleteCategoryAPI = (categoryId) => {
         });
 };
 
-export { getCategoryAPI, deleteCategoryAPI };
+const categoryExcelDownloadAPI = (params) => {
+    return axios({
+            url: `${CATEGORY}/excel/download`,
+            method: 'post',
+            data: params,
+            responseType: 'blob'
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
+export { getCategoryAPI, deleteCategoryAPI, categoryExcelDownloadAPI };

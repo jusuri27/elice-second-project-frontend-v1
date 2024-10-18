@@ -14,6 +14,7 @@
     >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm">
+          <q-btn color="secondary" @click="clickExcelDownload()" label="엑셀" />
           <q-btn color="primary" @click="clickCreateItem()" label="추가" />
           <q-btn color="red" @click="clickDeleteItem()" label="삭제" />
         </div>
@@ -24,7 +25,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getItemAPI, deleteItemAPI } from '../api/index.js';
+import { getItemAPI, deleteItemAPI, itemExcelDownloadAPI } from '../api/index.js';
 
 // 테이블 화면 관련 변수
 const selected = ref([]); // 체크박스
@@ -86,6 +87,28 @@ const clickDeleteItem = async () => {
     return;
   }
   selected.value = [];
+  getItemList();
+};
+
+// 엑셀 저장
+const clickExcelDownload = async () => {
+  const params = rows.value;
+
+  const { response, error } = await itemExcelDownloadAPI(params);
+  if (error) {
+    console.log('에러 발생');
+    return;
+  }
+
+  // Blob을 사용하여 파일 다운로드
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'shoux-kream.xlsx'); // 다운로드할 파일 이름
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link); // 링크 요소 제거
+  
   getItemList();
 };
 
