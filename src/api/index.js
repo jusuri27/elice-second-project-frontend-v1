@@ -2,7 +2,8 @@ export {
     getUserLogAPI,
     deleteUserLogAPI,
     createUserLogAPI,
-    updateUserLogAPI
+    updateUserLogAPI,
+    excelDownloadAPI
 }
 from './userLog';
 

@@ -65,4 +65,20 @@ const deleteUserLogAPI = (userLogIds) => {
         });
 };
 
-export { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI };
+const excelDownloadAPI = (params) => {
+    return axios({
+            url: `${USERLOG}/excel/download`,
+            method: 'post',
+            data: params,
+            responseType: 'blob'
+        })
+        .then(res => {
+            return { response: res, error: null };
+        })
+        .catch(err => {
+            console.error(err);
+            return { response: null, error: err };
+        });
+};
+
+export { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI, excelDownloadAPI };

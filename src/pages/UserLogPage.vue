@@ -14,6 +14,7 @@
     >
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm">
+          <q-btn color="secondary" @click="clickExcelDownload()" label="엑셀" />
           <q-btn color="primary" @click="createUserLog()" label="추가" />
           <q-btn color="red" @click="deleteUserLog()" label="삭제" />
         </div>
@@ -32,7 +33,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI } from '../api/index.js';
+import { getUserLogAPI, createUserLogAPI, updateUserLogAPI, deleteUserLogAPI, excelDownloadAPI } from '../api/index.js';
 import ModalComponent from 'src/components/modal/ModalComponent.vue'
 
 // 테이블 화면 관련 변수
@@ -158,6 +159,29 @@ const saveModal = async () => {
   selected.value = [];
   getUserList();
   showModal.value = false;
+};
+
+// 엑셀 저장
+const clickExcelDownload = async () => {
+  const params = rows.value;
+
+  const { response, error } = await excelDownloadAPI(params);
+  if (error) {
+    console.log('에러 발생');
+    return;
+  }
+
+  // Blob을 사용하여 파일 다운로드
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'shoux-kream.xlsx'); // 다운로드할 파일 이름
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link); // 링크 요소 제거
+  
+  selected.value = [];
+  getUserList();
 };
 
 // 컴포넌트가 마운트될 때 getUserList를 호출
