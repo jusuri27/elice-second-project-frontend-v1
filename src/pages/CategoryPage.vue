@@ -108,7 +108,6 @@ const onRowClick = (evt, row) => {
 
 const onDbRowClick = (evt, row) => {
   const updateUrl = 'http://localhost:8080/categorie/' + row.id;
-  console.log('updateUrl : ', updateUrl);
   window.open(updateUrl, 'popupWindow', 'width=1000,height=1200');
 };
 

@@ -116,7 +116,6 @@ const getCheckOutList = async () => {
             address2: address.address2
         };
     });
-  console.log("response.data : ", response.data);
   console.log("rows.value : ", rows.value);
 };
 

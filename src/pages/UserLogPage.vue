@@ -119,8 +119,6 @@ const getUserList = async () => {
 // 삭제 api
 const deleteUserLog = async () => {
   const userLogIds = selected.value.map(obj => obj.userLogId);
-  console.log("selected.value : ", selected.value);
-  console.log("userLogIds : ", userLogIds);
 
   const { response, error } = await deleteUserLogAPI(userLogIds);
   if (error) {
@@ -164,7 +162,6 @@ const saveModal = async () => {
 // 엑셀 저장
 const clickExcelDownload = async () => {
   const params = rows.value;
-  console.log('params : ', params);
   const { response, error } = await userLogExcelDownloadAPI(params);
   if (error) {
     console.log('에러 발생');

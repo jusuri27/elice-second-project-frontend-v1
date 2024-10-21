@@ -139,8 +139,6 @@ const saveModal = async () => {
 // 삭제 api
 const deleteUserLog = async () => {
   const userIds = selected.value.map(obj => obj.userId);
-  console.log("selected.value : ", selected.value);
-  console.log("userIds : ", userIds);
 
   const { response, error } = await deleteUserLogAPI(userIds);
   if (error) {
