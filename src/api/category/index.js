@@ -9,8 +9,8 @@ const getCategoryAPI = () => {
             method: 'get'
         })
         .then(res => {
-            if (!res || !res.data) {
-                alert("응답 에러");
+            if (!res.data) {
+                throw new Error("응답 에러: 데이터가 없습니다.");
             }
             return { response: res, error: null };
         })
