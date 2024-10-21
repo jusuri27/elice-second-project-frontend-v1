@@ -1,49 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <!-- TODO : 시간남으면 header 분리 -->
-    <q-header elevated style="width: 100%; left: 0px;">
-      <q-toolbar>
-        <!-- <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        /> -->
-
-        <q-toolbar-title>
-          <a href="http://localhost:8080" style="color: inherit; text-decoration-line: none;">
-            Shoux Kream
-          </a>
-        </q-toolbar-title>
-        
-      </q-toolbar>
-    </q-header>
-
-    <!-- TODO : 시간남으면 sidebar 분리 -->
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      style="margin-top: 50px;"
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-          @click="changeMainView(link)"
-        />
-      </q-list>
-    </q-drawer>
-
+    <HeaderLayout />
+    <SideMenuLayout
+      @changeMainView="changeMainView"
+      :menuList ="menuList"
+    />
     <q-page-container>
       <component :is="currentView" />
     </q-page-container>
@@ -52,7 +13,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import HeaderLayout from 'layouts/HeaderLayout.vue'
+import SideMenuLayout from 'layouts/SideMenuLayout.vue'
 
 import UserLog from 'pages/UserLogPage.vue'
 import Category from 'src/pages/CategoryPage.vue'
@@ -64,55 +26,40 @@ defineOptions({
   name: 'MainLayout'
 })
 
-const linksList = [
+const menuList = [
   {
     title: '주문 관리',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
+    icon: 'shopping_bag',
     component: CheckOut
   },
   {
     title: '회원 관리',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
+    icon: 'manage_accounts',
     component: User
   },
   {
     title: '카테고리 관리',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
+    icon: 'category',
     component: Category
   },
   {
     title: '상품 관리',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
+    icon: 'inventory_2',
     component: Item
   },
   {
     title: '사용자 로그',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
+    icon: 'record_voice_over',
     component: UserLog
   }
 ]
 
-const leftDrawerOpen = ref(false)
-const currentView = ref(linksList[4].component) // 기본값을 첫 번째 컴포넌트로 설정
 
-function toggleLeftDrawer () {
-  // leftDrawerOpen.value = !leftDrawerOpen.value
-}
+const currentView = ref(menuList[3].component) // 기본값을 첫 번째 컴포넌트로 설정
 
-function changeMainView(link) {
+const changeMainView = (link) => {
   currentView.value = link.component
-  leftDrawerOpen.value = true
-}
+};
 
 // localhost:8080에서 관리자 버튼 클릭시 토큰값 넘겨받고 url에 남아있는 토큰 내용 삭제
 // url에 토큰 내용을 삭제했기 때문에 새로고침시 url에 토큰값이 있을때만 세션스토리지에 저장
