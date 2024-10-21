@@ -57,6 +57,15 @@
                   <q-item-label caption>{{ selectedRow?.price || 'Secondary line text.' }}</q-item-label>
                 </q-item-section>
               </q-item>
+
+              <q-separator spaced inset />
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label>키워드</q-item-label>
+                  <q-item-label caption>{{ selectedRow?.keyWords || '' }}</q-item-label>
+                </q-item-section>
+              </q-item>
             </q-list>
         </q-card>
       </div>
@@ -116,7 +125,8 @@ const columns = [
   { name: 'detailDescription', align: 'left', label: '상세 설명', field: 'detailDescription', sortable: true },
   { name: 'imageKey', align: 'left', label: '사진 경로', field: 'imageKey', sortable: true },
   { name: 'inventory', align: 'left', label: '재고', field: 'inventory', sortable: true  },
-  { name: 'price', align: 'left', label: '가격', field: 'price', sortable: true  }
+  { name: 'price', align: 'left', label: '가격', field: 'price', sortable: true  },
+  { name: 'keyWords', align: 'left', label: '키워드', field: 'keyWords', sortable: true  }
 ];
 
 // 선택된 행 데이터
@@ -144,13 +154,14 @@ const getItemList = async () => {
     console.log('에러 발생');
     return;
   }
-
   // API로부터 받은 데이터를 rows에 반영
-  rows.value = response.data;
+  rows.value = response.data.map(item => ({
+      ...item,
+      keyWords: item.keyWords ? item.keyWords.join(', ') : ''
+  }));
   if (rows.value.length > 0) {
     selectedRow.value = rows.value[0] // 첫 번째 행 데이터를 선택
   }
-  console.log("rows.value : ", rows.value);
 };
 
 // 삭제 api
