@@ -100,6 +100,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getItemAPI, deleteItemAPI, itemExcelDownloadAPI } from '../api/index.js';
+import ENV from '../utils/PagePath.js';
 
 // 테이블 화면 관련 변수
 const selected = ref([]); // 체크박스
@@ -137,12 +138,12 @@ const onRowClick = (evt, row) => {
 }
 
 const clickCreateItem = () => {
-  const createUrl = 'http://localhost:8080/item/item-add';
+  const createUrl = ENV.URL.CREATE_ITEM;
   window.open(createUrl, 'popupWindow', 'width=1000,height=1200');
 };
 
 const onDbRowClick = (evt, row) => {
-  const updateUrl = 'http://localhost:8080/item/edit/' + row.id;
+  const updateUrl = `${ENV.URL.UPDATE_ITEM}${row.id}`
   window.open(updateUrl, 'popupWindow', 'width=1000,height=1200');
 };
 

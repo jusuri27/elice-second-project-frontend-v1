@@ -69,6 +69,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getCategoryAPI, deleteCategoryAPI, categoryExcelDownloadAPI } from '../api/index.js';
+import ENV from '../utils/PagePath.js';
 
 const selected = ref([]); // 체크박스
 const rows = ref([]); // rows를 ref로 변경하여 반응형 데이터로 만듭니다.
@@ -98,7 +99,7 @@ const expanded = ref(false) // 토글
 const selectedRow = ref(null) // 초기에는 null로 설정
 
 const clickCreateCategory = () => {
-  const createUrl = 'http://localhost:8080/category/add';
+  const createUrl = ENV.URL.CREATE_CATEGORY;
   window.open(createUrl, 'popupWindow', 'width=1000,height=1200');
 };
 
@@ -107,7 +108,7 @@ const onRowClick = (evt, row) => {
 }
 
 const onDbRowClick = (evt, row) => {
-  const updateUrl = 'http://localhost:8080/categorie/' + row.id;
+  const updateUrl = `${ENV.URL.UPDATE_CATEGORY}${row.id}`
   window.open(updateUrl, 'popupWindow', 'width=1000,height=1200');
 };
 

@@ -15,8 +15,8 @@
       <template v-slot:top-right>
         <div class="q-pa-md q-gutter-sm">
           <q-btn color="secondary" @click="clickExcelDownload()" label="엑셀" />
-          <q-btn color="primary" @click="createUserLog()" label="추가" />
-          <q-btn color="red" @click="deleteUserLog()" label="삭제" />
+          <!-- <q-btn color="primary" @click="createUserLog()" label="추가" />
+          <q-btn color="red" @click="deleteUserLog()" label="삭제" /> -->
         </div>
       </template>
     </q-table>
@@ -83,7 +83,7 @@ const onRowClick = (evt, row) => {
       { key: 'responseStatus', value: row.responseStatus, label: 'Response Status', type: 'file', isDisable: false}
   ];
   modalTitle.value = '사용자 로그 수정';
-  showModal.value = true;
+  // showModal.value = true;
   modalFlag.value = 'update';
 };
 

@@ -1,5 +1,5 @@
 export const API_BASE_URL = 'http://localhost:8080/api/admin';
-// export const API_BASE_URL = 'https://jrqggzccfxaqcbkg.tunnel-pt.elice.io/';
+// export const API_BASE_URL = 'https://jrqggzccfxaqcbkg.tunnel-pt.elice.io/api/admin';
 
 export const path = {
     USERLOG: `${API_BASE_URL}/user-log`,
